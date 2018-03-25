@@ -2,10 +2,8 @@ from rest_framework import permissions
 
 
 class UserObjectOwnerPermission(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return False
 
+    def has_object_permission(self, request, view, obj):
         return obj == request.user
 
 
@@ -26,6 +24,7 @@ class UserPermission(permissions.BasePermission):
         methods_allowed_for_authenticated = ('GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS')
         if request.method in methods_allowed_for_anonymous and request.user.is_anonymous:
             return True
+        print 'request.user.is_authenticated = {}'.format(request.user.is_authenticated)
         if request.method in methods_allowed_for_authenticated and request.user.is_authenticated:
             return True
 
