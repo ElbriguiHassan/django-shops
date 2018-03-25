@@ -24,7 +24,6 @@ class UserPermission(permissions.BasePermission):
         methods_allowed_for_authenticated = ('GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS')
         if request.method in methods_allowed_for_anonymous and request.user.is_anonymous:
             return True
-        print 'request.user.is_authenticated = {}'.format(request.user.is_authenticated)
         if request.method in methods_allowed_for_authenticated and request.user.is_authenticated:
             return True
 

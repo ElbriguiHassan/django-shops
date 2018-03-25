@@ -12,7 +12,6 @@ class User(AbstractUser):
         except IntegrityError:
             self.destroy_token()
             instance = Token.objects.create(user=self)
-            print 'instance.user.email = {}'.format(instance.user.email)
         return dict(
             key=instance.key
         )
