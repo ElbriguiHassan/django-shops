@@ -32,3 +32,30 @@ class UserSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(_('Cannot update email'))
         return data
 
+
+class AuthenticateSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    password = serializers.CharField(label=_('Password'), write_only=True)
+    key = serializers.CharField(label=_('Key'), read_only=True)
+    email = serializers.CharField(label=_('Email'))
+
+    def generate_token(self):
+        validated_data = self.validated_data
+        user = validated_data['user']
+        token = user.make_token()
+        self.validated_data.update(
+            token
+        )
+
+    def validate(self, attrs):
+        email = attrs.get('email', None)
+        password = attrs.get('password', None)
+        user = authenticate(email=email, password=password)
+
+        if not user:
+            msg = _('Unable to log in with provided credentials.')
+            raise serializers.ValidationError(msg, code='authorization')
+
+        attrs['user'] = user
+        attrs['id'] = user.id
+        return attrs
