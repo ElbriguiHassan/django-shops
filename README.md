@@ -2,21 +2,17 @@
 
 An App that lists shops nearby.
 
-## Installation
+
+## Developer Setup
 
 ```
 git clone https://github.com/ElbriguiHassan/django-shops.git
 cd django-shops
+docker-compose build 
+docker-compose up -d
 ```
 
 
-## Example app
+# **API endpoints:**
 
-Project includes an example application configured to help develop and
-testing components by developers.
-
-```bash
-pip install -r requirements/base.txt
-python manage.py migrate
-python manage.py runserver
-```
+[API endpoints](API.md)
